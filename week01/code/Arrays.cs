@@ -8,12 +8,24 @@ public static class Arrays
     /// <returns>array of doubles that are the multiples of the supplied number</returns>
     public static double[] MultiplesOf(double number, int length)
     {
-        // TODO Problem 1 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+        /// We create an array of doubles with a length equal to the argument passed to the length parameter.
+        double[] multiplesResult = new double[length];
 
-        return []; // replace this return statement with your own
+        
+        /// We use a for loop to create multiples of the argument passed to the number parameter.
+        /// We loop a number of times equal to the argument passed to the length parameter.
+        /// Each time we add in the next available index a number that is the result of multiply the argument passed to the number parameter index + 1 times.
+        for (var index = 0; index < length ; index++)
+        {
+
+            multiplesResult[index] = number * (index + 1);
+        }
+        
+        /// We return the multiplesResult array of doubles.
+
+        return multiplesResult;
+
+        
     }
 
     /// <summary>
@@ -25,9 +37,13 @@ public static class Arrays
     /// </summary>
     public static void RotateListRight(List<int> data, int amount)
     {
-        // TODO Problem 2 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+        /// We get the last elements of the list passed as an argument to the data parameter, we get a quantity of last elements equal to the number passed as an argument to the amount parameter and we store these elements in a new list called "sliced" using the GetRange method. We pass the difference between the data.Count property (the number of elements) and the number passed as an argument to the parameter amount as the index begin argument to the GetRange method and the number passed as an argument to the amount parameter as the end index argument to the GetRange method.
+        var sliced = data.GetRange(data.Count - amount, amount);
+
+        /// We remove the last "amount" elements from the data list using the RemoveRange method and passing the same arguments that we passed to the GetRange method previously.
+        data.RemoveRange(data.Count - amount, amount);
+
+        /// We insert the elements previously removed in the beginning of the data list using the InsertRange method, we pass a 0 as the beginning index argument and we pass the sliced list as the list of elements argument. 
+        data.InsertRange(0, sliced);
     }
 }
