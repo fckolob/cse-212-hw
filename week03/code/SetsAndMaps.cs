@@ -30,19 +30,19 @@ public static class SetsAndMaps
         {
             if (word[0] == word[1]) continue;
 
-            var reversed = new string(word.Reverse().ToArray());
+            var reversed = new string(new[]{ word[1], word[0]});
 
-            if (setWords.Contains(reversed) && string.Compare(word, reversed) > 0)
+            if (setWords.Contains(reversed) && string.Compare(word, reversed) < 0)
             {
                 result.Add($"{word} & {reversed}");
             }
         }
 
+
         
-        var resultArray = result.ToArray();
 
 
-        return resultArray;
+        return result.ToArray();
     }
 
     /// <summary>
@@ -107,13 +107,15 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
 
+        word1 = word1.Replace(" ", "").ToLower();
+        word2 = word2.Replace(" ", "").ToLower();
+
         if (word1.Length != word2.Length)
         {
             return false;
         }
 
-        word1 = word1.Replace(" ", "").ToLower();
-        word2 = word2.Replace(" ", "").ToLower();
+       
 
         Char[] word1CharArray = word1.ToCharArray();
         Char[] word2CharArray = word2.ToCharArray();
@@ -129,9 +131,9 @@ public static class SetsAndMaps
             }
 
         }
-        
+
         return true;
-        
+
     }
 
     /// <summary>
@@ -165,6 +167,26 @@ public static class SetsAndMaps
         // on those classes so that the call to Deserialize above works properly.
         // 2. Add code below to create a string out each place a earthquake has happened today and its magitude.
         // 3. Return an array of these string descriptions.
-        return [];
+
+        var summaries = new List<string>();
+        if (featureCollection?.Features != null)
+        {
+            foreach (var feature in featureCollection.Features)
+            {
+                var place = feature.Properties?.Place ?? "Unknow location";
+                var magnitude = feature.Properties?.Mag?.ToString("0.00") ?? "N/A";
+                summaries.Add($"{place} - Mag {magnitude}");
+                
+            }
+        }
+
+
+
+
+
+
+        return summaries.ToArray();
     }
+
+    
 }
