@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using System.Text.Json;
 
 public static class SetsAndMaps
@@ -105,8 +106,32 @@ public static class SetsAndMaps
     /// </summary>
     public static bool IsAnagram(string word1, string word2)
     {
-        // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+
+        if (word1.Length != word2.Length)
+        {
+            return false;
+        }
+
+        word1 = word1.Replace(" ", "").ToLower();
+        word2 = word2.Replace(" ", "").ToLower();
+
+        Char[] word1CharArray = word1.ToCharArray();
+        Char[] word2CharArray = word2.ToCharArray();
+
+        Array.Sort(word1CharArray);
+        Array.Sort(word2CharArray);
+
+        for (int i = 0; i < word1CharArray.Length; i++)
+        {
+            if (word1CharArray[i].ToString() != word2CharArray[i].ToString())
+            {
+                return false;
+            }
+
+        }
+        
+        return true;
+        
     }
 
     /// <summary>
