@@ -21,8 +21,27 @@ public static class SetsAndMaps
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
     {
-        // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        var setWords = new HashSet<string>(words);
+
+        List<string> result = new List<string>();
+
+        foreach (var word in words)
+        {
+            if (word[0] == word[1]) continue;
+
+            var reversed = new string(word.Reverse().ToArray());
+
+            if (setWords.Contains(reversed) && string.Compare(word, reversed) > 0)
+            {
+                result.Add($"{word} & {reversed}");
+            }
+        }
+
+        
+        var resultArray = result.ToArray();
+
+
+        return resultArray;
     }
 
     /// <summary>
@@ -38,13 +57,33 @@ public static class SetsAndMaps
     /// <returns>fixed array of divisors</returns>
     public static Dictionary<string, int> SummarizeDegrees(string filename)
     {
+        var setDegrees = new HashSet<string>();
         var degrees = new Dictionary<string, int>();
         foreach (var line in File.ReadLines(filename))
         {
             var fields = line.Split(",");
-            // TODO Problem 2 - ADD YOUR CODE HERE
+            setDegrees.Add(fields[3].Trim());
         }
 
+        foreach (var degree in setDegrees)
+        {
+            degrees.Add(degree, 0);
+        }
+
+        foreach (var line in File.ReadLines(filename))
+        {
+            var fields = line.Split(",");
+            {
+                if (degrees.ContainsKey(fields[3]))
+
+                {
+                    var key = fields[3];
+                    degrees[key] += 1;
+                }
+            }
+
+
+        }
         return degrees;
     }
 
