@@ -88,10 +88,18 @@ public class Program
         Console.WriteLine();
         Console.WriteLine(stack1.ToString()); // Expected {1, 2}.
 
+        Console.WriteLine("Get Stack's top"); // Expected 2.
+
+        Console.WriteLine($"{stack1.GetTop().Data}");
+
+        Console.WriteLine("Is the stack empty?");
+
         Console.WriteLine($"{stack1.IsEmpty()}"); // Expected False.
 
         stack1.Pop();
         stack1.Pop();
+
+        Console.WriteLine("Is now the stack empty?");
 
         Console.WriteLine($"{stack1.IsEmpty()}"); // Expected True.
 
