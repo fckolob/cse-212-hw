@@ -16,33 +16,65 @@ public class Program
 
         var set3 = new HashSet<int>();
 
+        var set4 = new HashSet<int>(){1,1,1,1,2,2,2,2,1567,39902};
+
+        var set5 = new HashSet<int>() {1,2,1567,39902};
+
+        var setNull = new HashSet<int>();
+
+        setNull = null;
+
         var newUnion = new Union(set1, set2);
 
         var unionResult = newUnion.GetUnion();
+
+        var newUnion1 = new Union(set4, set5);
+
+        var unionResult1 = newUnion1.GetUnion();
+
+        // var newUnionNull = new Union(set4, setNull);
+
+        // var unionNullResult = newUnionNull.GetUnion();
 
         Console.WriteLine("Union");
 
         Console.WriteLine("[{0}]", string.Join(", ", unionResult)); // Expected [1, 2, 3, 4, 5, 6, 7, 8].
 
+        Console.WriteLine("Union 1");
+
+        Console.WriteLine("[{0}]", string.Join(", ", unionResult1)); // Expected [1,2,1567,39902].
+
+        // Console.WriteLine("Union null test");
+
+        // Console.WriteLine("[{0}]", string.Join(", ", unionNullResult)); // Expected [An Exeption should be throwed].
+
         var newIntersection = new Intersection(set1, set2);
 
         var intersectionResult = newIntersection.GetIntersection();
+
+        var newIntersection1 = new Intersection(set4, set5);
+
+        var intersectionResult1 = newIntersection1.GetIntersection();
 
         Console.WriteLine("Intersection");
 
         Console.WriteLine("[{0}]", string.Join(", ", intersectionResult)); // Expected [1, 2, 3, 4].
 
-        var newEmptyUnion = new Union(set1, set3);
+        Console.WriteLine("Intersection 1");
 
-        Console.WriteLine("Empty set test for union");
+        Console.WriteLine("[{0}]", string.Join(", ", intersectionResult1)); // Expected [1,2,1567,39902].
 
-        var emptyUnionResult = newEmptyUnion.GetUnion();
+        // var newEmptyUnion = new Union(set1, set3);
 
-        Console.WriteLine("Empty set test for Intersection");
+        // Console.WriteLine("Empty set test for union");
 
-        var emptyIntersection = new Intersection(set1, set3);
+        // var emptyUnionResult = newEmptyUnion.GetUnion();
 
-        var emptyIntersectionResult = emptyIntersection.GetIntersection();
+        // Console.WriteLine("Empty set test for Intersection");
+
+        // var emptyIntersection = new Intersection(set1, set3);
+
+        // var emptyIntersectionResult = emptyIntersection.GetIntersection();
 
 
         
