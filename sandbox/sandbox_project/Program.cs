@@ -90,7 +90,7 @@ public class Program
 
         Console.WriteLine("Get Stack's top"); // Expected 2.
 
-        Console.WriteLine($"{stack1.GetTop().Data}");
+        Console.WriteLine($"{stack1.GetTop()}");
 
         Console.WriteLine("Is the stack empty?");
 
@@ -232,11 +232,11 @@ public class Stack : IEnumerable<int>
         }
     }
 
-    public LinkedListNode GetTop()
+    public int GetTop()
     {
         if (_tail != null)
         {
-            return _tail;
+            return _tail.Data;
         }
         else
         {
