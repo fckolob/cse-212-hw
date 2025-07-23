@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 
 public class Program
 {
@@ -16,9 +17,9 @@ public class Program
 
         var set3 = new HashSet<int>();
 
-        var set4 = new HashSet<int>(){1,1,1,1,2,2,2,2,1567,39902};
+        var set4 = new HashSet<int>() { 1, 1, 1, 1, 2, 2, 2, 2, 1567, 39902 };
 
-        var set5 = new HashSet<int>() {1,2,1567,39902};
+        var set5 = new HashSet<int>() { 1, 2, 1567, 39902 };
 
         var setNull = new HashSet<int>();
 
@@ -76,8 +77,23 @@ public class Program
 
         // var emptyIntersectionResult = emptyIntersection.GetIntersection();
 
+        var stack1 = new Stack();
 
-        
+        stack1.Push(1);
+        stack1.Push(2);
+        stack1.Push(3);
+        stack1.Pop();
+
+        Console.WriteLine("Stack Content");
+        Console.WriteLine();
+        Console.WriteLine(stack1.ToString()); // Expected {1, 2}.
+
+        Console.WriteLine($"{stack1.IsEmpty()}"); // Expected False.
+
+        stack1.Pop();
+        stack1.Pop();
+
+        Console.WriteLine($"{stack1.IsEmpty()}"); // Expected True.
 
 
 
@@ -158,7 +174,104 @@ public class Intersection
 
         else
         {
-            throw new InvalidOperationException("One or the two sets are null or empty");   
+            throw new InvalidOperationException("One or the two sets are null or empty");
         }
     }
+
 }
+
+// Implement a Stack using a Linked list.
+
+
+public class Stack : IEnumerable<int>
+{
+    private LinkedListNode? _head;
+
+    private LinkedListNode? _tail;
+
+    public void Push(int value)
+    {
+        // Create new LinkedListNode.
+        LinkedListNode newLinkedListNode = new(value);
+
+        if (_head is null)
+        {
+            _head = newLinkedListNode;
+            _tail = newLinkedListNode;
+        }
+        // If the list is not empty, then only head will be affected.
+        else
+        {
+            newLinkedListNode.Prev = _tail; // Connect new node to the previous head
+            if (_tail != null) { _tail.Next = newLinkedListNode; } // Connect the previous head to the new node
+            _tail = newLinkedListNode; // Update the head to point to the new node
+        }
+    }
+
+    public void Pop()
+    {
+        if (_head == _tail)
+        {
+            _head = null;
+            _tail = null;
+        }
+
+        else if (_tail is not null)
+        {
+            var newtail = _tail.Prev;
+            if (newtail is not null) { newtail.Next = null; }
+            _tail = newtail;
+        }
+    }
+
+    public LinkedListNode GetTop()
+    {
+        if (_tail != null)
+        {
+            return _tail;
+        }
+        else
+        {
+            throw new InvalidOperationException("The stack is empty");
+        }
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        // call the generic version of the method
+        return this.GetEnumerator();
+    }
+
+    public IEnumerator<int> GetEnumerator()
+    {
+        var curr = _head; // Start at the beginning since this is a forward iteration.
+        while (curr is not null)
+        {
+            yield return curr.Data; // Provide (yield) each item to the user
+            curr = curr.Next; // Go forward in the linked list
+        }
+    }
+
+    public override string ToString()
+    {
+        return "<Stack>{" + string.Join(", ", this) + "}";
+    }
+
+    public bool IsEmpty()
+    {
+        return _head is null && _tail is null;
+    }
+
+    }
+
+    public class LinkedListNode
+    {
+        public int Data { get; set; }
+        public LinkedListNode? Next { get; set; }
+        public LinkedListNode? Prev { get; set; }
+
+        public LinkedListNode(int data)
+    {
+        this.Data = data;
+    }
+    }
