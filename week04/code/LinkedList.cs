@@ -44,7 +44,7 @@ public class LinkedList : IEnumerable<int>
         else
         {
             newNode.Prev = _tail; // Connect new node to the previous head
-            if (_tail != null) { _tail.Next = newNode; } // Connect the previous head to the new node
+            _tail!.Next = newNode; // Connect the previous head to the new node
             _tail = newNode; // Update the head to point to the new node
         }
     }
@@ -58,17 +58,23 @@ public class LinkedList : IEnumerable<int>
         // If the list has only one item in it, then set head and tail 
         // to null resulting in an empty list.  This condition will also
         // cover an empty list.  Its okay to set to null again.
-        if (_head == _tail)
+
+        if (_head is null)
+        {
+            return;
+        }
+
+        else if (_head == _tail)
         {
             _head = null;
             _tail = null;
         }
         // If the list has more than one item in it, then only the head
         // will be affected.
-        else if (_head is not null)
+        else
         {
-            _head.Next!.Prev = null; // Disconnect the second node from the first node
-            _head = _head.Next; // Update the head to point to the second node
+            _head = _head.Next;
+            _head!.Prev = null;
         }
     }
 
@@ -78,17 +84,21 @@ public class LinkedList : IEnumerable<int>
     /// </summary>
     public void RemoveTail()
     {
-        if (_head == _tail)
+        if (_tail is null)
+        {
+            return;
+        }
+
+        else if (_head == _tail)
         {
             _head = null;
             _tail = null;
         }
 
-        else if (_tail is not null)
+        else
         {
-            var newtail = _tail.Prev;
-            if (newtail is not null) { newtail.Next = null; }
-            _tail = newtail;
+            _tail = _tail.Prev;
+            _tail!.Next = null;
         }
         
     }
@@ -141,15 +151,41 @@ public class LinkedList : IEnumerable<int>
         {
             if (curr.Data == value)
             {
-                var oldPrev = curr.Prev;
-                var oldNext = curr.Next;
-                if (oldPrev is not null) { oldPrev.Next = curr.Next; }
-                if (oldNext is not null){ oldNext.Prev = curr.Prev; }
+                if (curr == _head)
+                {
+                    _head = curr.Next;
+                    if (_head is not null)
+                    {
+                        _head.Prev = null;
+                    }
+                    else
+                    {
+                        _tail = null;
+                    }
+                }
+
+                else if (curr == _tail)
+                {
+                    _tail = curr.Prev;
+                    if (_tail is not null)
+                    {
+                        _tail.Next = null;
+                    }
+                    else
+                    {
+                        _head = null;
+                    }
+                }
+                else
+                {
+                    curr.Prev!.Next = curr.Next;
+                    curr.Next!.Prev = curr.Prev;
+                }
+
                 return;
             }
+            curr = curr.Next;
         }
-
-        if (curr is not null) { curr = curr.Next; }
     }
 
     /// <summary>
@@ -165,7 +201,7 @@ public class LinkedList : IEnumerable<int>
                 curr.Data = newValue;
             }
 
-            if (curr is not null) { curr = curr.Next; }
+            curr = curr.Next;
         }
     }
 
