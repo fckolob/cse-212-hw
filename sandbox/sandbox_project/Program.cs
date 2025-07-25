@@ -211,24 +211,28 @@ public class Stack : IEnumerable<int>
         else
         {
             newLinkedListNode.Prev = _tail; // Connect new node to the previous head
-            if (_tail != null) { _tail.Next = newLinkedListNode; } // Connect the previous head to the new node
+            _tail!.Next = newLinkedListNode; // Connect the previous head to the new node
             _tail = newLinkedListNode; // Update the head to point to the new node
         }
     }
 
     public void Pop()
     {
-        if (_head == _tail)
+         if (_tail is null)
+        {
+            return;
+        }
+
+        else if (_head == _tail)
         {
             _head = null;
             _tail = null;
         }
 
-        else if (_tail is not null)
+        else
         {
-            var newtail = _tail.Prev;
-            if (newtail is not null) { newtail.Next = null; }
-            _tail = newtail;
+            _tail = _tail.Prev;
+            _tail!.Next = null;
         }
     }
 
