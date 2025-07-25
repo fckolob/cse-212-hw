@@ -193,9 +193,9 @@ public class Intersection
 
 public class Stack : IEnumerable<int>
 {
-    private LinkedListNode? _head;
+    private LinkedListNode _head;
 
-    private LinkedListNode? _tail;
+    private LinkedListNode _tail;
 
     public void Push(int value)
     {
@@ -272,14 +272,92 @@ public class Stack : IEnumerable<int>
 
     }
 
-    public class LinkedListNode
-    {
-        public int Data { get; set; }
-        public LinkedListNode? Next { get; set; }
-        public LinkedListNode? Prev { get; set; }
+// Implement a Queue using a Linked List.
 
-        public LinkedListNode(int data)
+public class Queue : IEnumerable<int>
+{
+    private LinkedListNode _head;
+
+    private LinkedListNode _tail;
+
+    public void Enqueue(int value)
+    {
+        // Create new LinkedListNode.
+        LinkedListNode newLinkedListNode = new(value);
+
+        if (_head is null)
+        {
+            _head = newLinkedListNode;
+            _tail = newLinkedListNode;
+        }
+        // If the list is not empty, then only head will be affected.
+        else
+        {
+            newLinkedListNode.Prev = _tail; // Connect new node to the previous head
+            if (_tail != null) { _tail.Next = newLinkedListNode; } // Connect the previous head to the new node
+            _tail = newLinkedListNode; // Update the head to point to the new node
+        }
+    }
+
+    public void Dequeue()
+    {
+         // If the list has only one item in it, then set head and tail 
+        // to null resulting in an empty list.  This condition will also
+        // cover an empty list.  Its okay to set to null again.
+        if (_head == _tail)
+        {
+            _head = null;
+            _tail = null;
+        }
+        // If the list has more than one item in it, then only the head
+        // will be affected.
+        else if (_head is not null)
+        {
+            _head.Next!.Prev = null; // Disconnect the second node from the first node
+            _head = _head.Next; // Update the head to point to the second node
+        }
+    }
+
+    
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        // call the generic version of the method
+        return this.GetEnumerator();
+    }
+
+    public IEnumerator<int> GetEnumerator()
+    {
+        var curr = _head; // Start at the beginning since this is a forward iteration.
+        while (curr is not null)
+        {
+            yield return curr.Data; // Provide (yield) each item to the user
+            curr = curr.Next; // Go forward in the linked list
+        }
+    }
+
+    public override string ToString()
+    {
+        return "<Queue>{" + string.Join(", ", this) + "}";
+    }
+
+    public bool IsEmpty()
+    {
+        return _head is null && _tail is null;
+    }
+
+    }
+
+
+
+    public class LinkedListNode
+{
+    public int Data { get; set; }
+    public LinkedListNode Next { get; set; }
+    public LinkedListNode Prev { get; set; }
+
+    public LinkedListNode(int data)
     {
         this.Data = data;
     }
-    }
+}
