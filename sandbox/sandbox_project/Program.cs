@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Diagnostics.Metrics;
 
 public class Program
 {
@@ -286,7 +287,7 @@ public class Queue : IEnumerable<int>
 
     public void Enqueue(int value)
     {
-        // Create new LinkedListNode.
+         // Create new LinkedListNode.
         LinkedListNode newLinkedListNode = new(value);
 
         if (_head is null)
@@ -298,7 +299,7 @@ public class Queue : IEnumerable<int>
         else
         {
             newLinkedListNode.Prev = _tail; // Connect new node to the previous head
-            if (_tail != null) { _tail.Next = newLinkedListNode; } // Connect the previous head to the new node
+            _tail!.Next = newLinkedListNode; // Connect the previous head to the new node
             _tail = newLinkedListNode; // Update the head to point to the new node
         }
     }
@@ -308,17 +309,50 @@ public class Queue : IEnumerable<int>
          // If the list has only one item in it, then set head and tail 
         // to null resulting in an empty list.  This condition will also
         // cover an empty list.  Its okay to set to null again.
-        if (_head == _tail)
+
+        if (_head is null)
+        {
+            return;
+        }
+
+        else if (_head == _tail)
         {
             _head = null;
             _tail = null;
         }
         // If the list has more than one item in it, then only the head
         // will be affected.
-        else if (_head is not null)
+        else
         {
-            _head.Next!.Prev = null; // Disconnect the second node from the first node
-            _head = _head.Next; // Update the head to point to the second node
+            _head = _head.Next;
+            _head!.Prev = null;
+        }
+    }
+
+    public int GetSize()
+    {
+        if (_head is null)
+        {
+            return 0;
+        }
+
+        else if (_head == _tail)
+        {
+            return 1;
+        }
+
+        else
+        {
+            LinkedListNode curr = _head;
+            var count = new int();
+            count = 0;
+            while (curr is not null)
+            {
+                count += 1;
+                curr = curr.Next;
+            }
+
+            return count;
         }
     }
 
