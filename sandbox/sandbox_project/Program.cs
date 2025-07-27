@@ -399,3 +399,22 @@ public class Queue : IEnumerable<int>
         this.Data = data;
     }
 }
+
+
+// Recursion.
+public class Sum
+{
+    public int GetSum(int n)
+    {
+        // Base case.
+        if (n == 1)
+        {
+            return 1;
+        }
+        // Recursion case.
+        else
+        {
+            return n + GetSum(n - 1);
+        }
+    }
+}
