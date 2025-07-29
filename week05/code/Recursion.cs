@@ -157,7 +157,29 @@ public static class Recursion
     /// </summary>
     public static void WildcardBinary(string pattern, List<string> results)
     {
-        // TODO Start Problem 4
+        var wildCardIndex = pattern.IndexOf("*");
+        // Base case.
+        if (wildCardIndex == -1)
+        {
+            results.Add(pattern);
+            return;
+        }
+
+        // Inserting 0.
+
+        string withZero = pattern.Substring(0, wildCardIndex) + "0" + pattern.Substring(wildCardIndex + 1);
+
+        // Recall.
+
+        WildcardBinary(withZero, results);
+
+        // Inserting 0.
+
+        string withOne = pattern.Substring(0, wildCardIndex) + "1" + pattern.Substring(wildCardIndex + 1);
+
+        // Recall.
+
+        WildcardBinary(withOne, results);
     }
 
     /// <summary>
@@ -168,14 +190,50 @@ public static class Recursion
     {
         // If this is the first time running the function, then we need
         // to initialize the currPath list.
-        if (currPath == null) {
+        if (currPath == null)
+        {
             currPath = new List<ValueTuple<int, int>>();
         }
-        
+
         // currPath.Add((1,2)); // Use this syntax to add to the current path
 
-        // TODO Start Problem 5
-        // ADD CODE HERE
+        // Base case 1 out of bounderies.
+
+        if (!maze.IsValidMove(currPath, x, y))
+        {
+            return;
+        }
+
+        currPath.Add((x, y));
+
+        // Check if is the end.
+
+        if (maze.IsEnd(x, y))
+        {
+            results.Add(currPath.AsString());
+
+            currPath.RemoveAt(currPath.Count - 1);
+            return;
+        }
+
+        // Posible directions.
+
+        // Right.
+        SolveMaze(results, maze, x + 1, y, currPath);
+
+        // Down.
+        SolveMaze(results, maze, x, y + 1, currPath);
+
+        // Left.
+
+        SolveMaze(results, maze, x - 1, y, currPath);
+
+        // Up.
+        SolveMaze(results, maze, x, y - 1, currPath);
+
+        // Remove current x and y.
+
+        currPath.RemoveAt(currPath.Count - 1);
 
         // results.Add(currPath.AsString()); // Use this to add your path to the results array keeping track of complete maze solutions when you find the solution.
     }
