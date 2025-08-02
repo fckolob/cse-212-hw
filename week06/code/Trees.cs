@@ -1,3 +1,5 @@
+using System.Security.Cryptography.X509Certificates;
+
 public static class Trees
 {
     /// <summary>
@@ -49,5 +51,38 @@ public static class Trees
     private static void InsertMiddle(int[] sortedNumbers, int first, int last, BinarySearchTree bst)
     {
         // TODO Start Problem 5
+
+        // Base case.
+
+        if (first > last)
+        {
+            return;
+        }
+
+        int middleIndex = first + (last - first) / 2;
+
+        int middle = sortedNumbers[middleIndex];
+
+        bst.Insert(middle);
+
+        // Left subtree.
+
+        InsertMiddle(sortedNumbers, first, middleIndex - 1, bst);
+
+        // Right subtree.
+
+        InsertMiddle(sortedNumbers, middleIndex + 1, last, bst);
+
+
+
+
+        
+
+
+        
+
+
+
+        
     }
 }
